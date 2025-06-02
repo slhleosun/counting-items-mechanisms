@@ -14,6 +14,7 @@ The experiments consist of bahavioral (prompt construction + open model evaluati
 ## Behavioral 
 ### Prompt Construction
 > 📁Relevant Files: prompt_suite.ipynb
+
 We create a synthetic dataset of prompts of the form: 
 > Count the number of words in the following list that match the given type,<br>
 > and put the numerical answer in parentheses.<br>
