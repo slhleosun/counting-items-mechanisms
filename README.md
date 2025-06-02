@@ -29,7 +29,7 @@ where:
 - We compute the ground‐truth integer answer by counting how many list entries belong to the selected category.
 
 ### Benchmarking Models
-> 📁Relevant Files: behavioral_eval.ipynb ; behavioral_results/
+> 📁Relevant Files: behavioral_eval.ipynb
 
 We evaluate a set of open‐weight LLMs on 5,000 prompts in a zero‐shot regime (no chain‐of‐thought steps, no appended reasoning instructions). Each model is asked exactly the prompt (ending in Answer: (), and we capture its next‐token generation(s) to extract the predicted integer.
 
@@ -41,14 +41,18 @@ Models Evaluated:
 > "qwen2.5-3b"      : "Qwen/Qwen2.5-3B"<br>
 
 #### Behavioral Results 
+> 📁Relevant Files: behavioral_results/
 
 ![Figure1](behavioral_results/overall_behavioral_acc.png)
+
 *Model size and instruction tuning are important factors.* LLaMA3-70B-Instruct achieves the highest accuracy (~91%), with LLaMA3-8B-Instruct performing well (~73%) and the base 8B model trailing behind (~36%). Qwen2.5-3B variants perform near chance, highlighting the necessity of both scale and alignment for this counting task. 
 
 ![Figure2](behavioral_results/word_behavioral_acc.png)
+
 *Models generally perform at similar levels across word types.* Models generally show consistent accuracy across all five semantic categories, suggesting robust generalization. 
 
 ![Figure3](behavioral_results/length_behavioral_acc.png)
+
 *List length generally does not matter for large models like 70B, whereas 8B models' performance deteriorates as the list gets longer.* LLaMA3-70B-Instruct remains accurate even on 12-word lists. LLaMA3-8B-Instruct shows mild drop-off, and the base 8B model degrades more sharply. Qwen models are inaccurate regardless of list length.
 
 ## Mechanistic
@@ -60,6 +64,8 @@ We focus on the Llama 3-8B-Instruct model and use a causal-mediation (activation
 Each phase is explained below.
 
 #### Hidden-State Caching and Linear Probing
+> 📁Relevant Files: causal_mech_interp.ipynb
+
 In order to study cases where the model demonstrably formed a valid internal count, we filter the predictions file to keep the first N = 200 examples where pred == gold. This yields a subset of prompts where the model's final answer exactly matches the ground truth, ensuring that it likely performed the intended reasoning.
 
 - Hidden State Collection:
@@ -74,10 +80,12 @@ In order to study cases where the model demonstrably formed a valid internal cou
 
   We compute R² scores on a held-out validation set to assess how well each layer linearly encodes the current count.
 
-##### Results 
+##### Linear Probing Results 
 
 
 #### Activation Patching and Causal Evaluation
+> 📁Relevant Files: causal_mech_interp.ipynb
+
 To assess whether the identified layer causally contributes to the model’s final answer, we perform targeted activation patching.
 
 - Setup:
@@ -92,5 +100,5 @@ To assess whether the identified layer causally contributes to the model’s fin
   
   If the patched model now outputs the counterfactual final count (i.e., the total number of matching items in the permuted list), we mark the patch as successful.
 
-##### Results 
+##### Patching Results 
 
