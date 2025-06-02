@@ -106,3 +106,13 @@ To assess whether the identified layer causally contributes to the model’s fin
 
 ##### Patching Results 
 
+![Figure5](interp_plots/average_impact_by_layer.png)
+
+*Mid-to-late layers are causally involved in producing the final count.*  We compute average patching success across layers by replacing hidden states with prefix-permuted alternatives and checking if the model flips its final answer accordingly. Success rises from early layers and saturates by Layer 18 (marked as best), indicating that running-count information becomes not just represented but causally used in the upper middle layers.
+
+![Figure6](interp_plots/patching_heatmap_layer_13.png)
+
+*Patching Layer 13 reliably shifts model outputs.*  When we patch only the kth token's hidden state at Layer 13, the model flips to the counterfactual count in over 90% of cases across all list positions. This confirms that Layer 13 contains a localized representation of the running count that directly influences the final output.
+
+
+
