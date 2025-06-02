@@ -82,6 +82,10 @@ In order to study cases where the model demonstrably formed a valid internal cou
 
 ##### Linear Probing Results 
 
+![Figure4](interp_plots/probe_scores_by_layer.png)
+
+*Running-count information becomes linearly accessible in middle layers.*  We trained a Ridge regression probe at each layer to predict the running count of category matches. Probe R² scores steadily rise through early layers and peak at Layer 13 (R² = 0.821), then plateau across later layers. This suggests that the model builds up a linearly decodable internal representation of the count around mid-depth, with Layer 13 chosen as the best candidate for causal analysis.
+
 
 #### Activation Patching and Causal Evaluation
 > 📁Relevant Files: causal_mech_interp.ipynb
