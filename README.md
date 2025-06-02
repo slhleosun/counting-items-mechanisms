@@ -31,7 +31,8 @@ where:
 ### Benchmarking Models
 > 📁Relevant Files: behavioral_eval.ipynb ; behavioral_results/
 
-We evaluate a set of open‐weight LLMs on 5,000 prompts in a zero‐shot regime (no chain‐of‐thought steps, no appended reasoning instructions). Each model is asked exactly the prompt (ending in Answer: (), and we capture its next‐token generation(s) to extract the predicted integer. 
+We evaluate a set of open‐weight LLMs on 5,000 prompts in a zero‐shot regime (no chain‐of‐thought steps, no appended reasoning instructions). Each model is asked exactly the prompt (ending in Answer: (), and we capture its next‐token generation(s) to extract the predicted integer.
+
 Models Evaluated:
 > "llama3-8b-instr" : "meta-llama/Meta-Llama-3-8B-Instruct"<br>
 > "llama3-8b"       : "meta-llama/Meta-Llama-3-8B"<br>
@@ -53,13 +54,16 @@ Each phase is explained below.
 #### Hidden-State Caching and Linear Probing
 In order to study cases where the model demonstrably formed a valid internal count, we filter the predictions file to keep the first N = 200 examples where pred == gold. This yields a subset of prompts where the model's final answer exactly matches the ground truth, ensuring that it likely performed the intended reasoning.
 
--Hidden State Collection:
+- Hidden State Collection:
+
   For each of the 200 prompts, we extract hidden states from all 32 transformer layers while the model processes the input list. We align each list word to its token index to track the exact representation used during counting.
 
 - Linear Probe Training:
+
   For each layer ℓ, we train a Ridge regression model to predict the running count of matching category words (e.g., fruits) up to each list position, using the residual stream at that position.
 
 - Probe Evaluation:
+
   We compute R² scores on a held-out validation set to assess how well each layer linearly encodes the current count.
 
 ##### Results 
@@ -69,12 +73,15 @@ In order to study cases where the model demonstrably formed a valid internal cou
 To assess whether the identified layer causally contributes to the model’s final answer, we perform targeted activation patching.
 
 - Setup:
+  
   For each prompt and list index k, we create a prefix-permuted version of the prompt by randomly shuffling the first k+1 words in the list. This changes the running count up to that point, but leaves the rest of the prompt unchanged.
 
 - Patching Procedure:
+  
   We extract the hidden state from the permuted run at layer ℓ* (identified from probing) and insert it into the clean run at the corresponding token position. We then let the model finish its forward pass and decode its new final prediction.
 
 - Evaluation:
+  
   If the patched model now outputs the counterfactual final count (i.e., the total number of matching items in the permuted list), we mark the patch as successful.
 
 ##### Results 
