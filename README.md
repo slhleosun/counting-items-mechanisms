@@ -1,6 +1,6 @@
 # Mechanistic Analysis of Counting in Llama-3-8B-Instruct
-Author: [Lihao Sun](https://sites.google.com/uchicago.edu/lihao-sun) (University of Chicago)
 --- 
+Author: [Lihao Sun](https://sites.google.com/uchicago.edu/lihao-sun) (University of Chicago)
 
 This repository implements a pipeline for investigating which layer in large language models (LLMs) maintain a running count of category‐matching words when processing prompts such as:
 > Count the number of words in the following list that match the given type, and put the numerical answer in parentheses.
