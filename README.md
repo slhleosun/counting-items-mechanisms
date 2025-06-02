@@ -45,15 +45,15 @@ Models Evaluated:
 
 ![Figure1](behavioral_results/overall_behavioral_acc.png)
 
-*Model size and instruction tuning are important factors.* LLaMA3-70B-Instruct achieves the highest accuracy (~91%), with LLaMA3-8B-Instruct performing well (~73%) and the base 8B model trailing behind (~36%). Qwen2.5-3B variants perform near chance, highlighting the necessity of both scale and alignment for this counting task. 
+**Model size and instruction tuning are important factors.** LLaMA3-70B-Instruct achieves the highest accuracy (~91%), with LLaMA3-8B-Instruct performing well (~73%) and the base 8B model trailing behind (~36%). Qwen2.5-3B variants perform near chance, highlighting the necessity of both scale and alignment for this counting task. 
 
 ![Figure2](behavioral_results/word_behavioral_acc.png)
 
-*Models generally perform at similar levels across word types.* Models generally show consistent accuracy across all five semantic categories, suggesting robust generalization. 
+**Models generally perform at similar levels across word types.** Models generally show consistent accuracy across all five semantic categories, suggesting robust generalization. 
 
 ![Figure3](behavioral_results/length_behavioral_acc.png)
 
-*List length generally does not matter for large models like 70B, whereas 8B models' performance deteriorates as the list gets longer.* LLaMA3-70B-Instruct remains accurate even on 12-word lists. LLaMA3-8B-Instruct shows mild drop-off, and the base 8B model degrades more sharply. Qwen models are inaccurate regardless of list length.
+**List length generally does not matter for large models like 70B, whereas 8B models' performance deteriorates as the list gets longer.** LLaMA3-70B-Instruct remains accurate even on 12-word lists. LLaMA3-8B-Instruct shows mild drop-off, and the base 8B model degrades more sharply. Qwen models are inaccurate regardless of list length.
 
 ## Mechanistic
 ### Methodology
@@ -84,7 +84,7 @@ In order to study cases where the model demonstrably formed a valid internal cou
 
 ![Figure4](interp_plots/probe_scores_by_layer.png)
 
-*Running-count information becomes linearly accessible in middle layers.*  We trained a Ridge regression probe at each layer to predict the running count of category matches. Probe R² scores steadily rise through early layers and peak at Layer 13 (R² = 0.821), then plateau across later layers. This suggests that the model builds up a linearly decodable internal representation of the count around mid-depth, with Layer 13 chosen as the best candidate for causal analysis.
+**Running-count information becomes linearly accessible in middle layers.**  We trained a Ridge regression probe at each layer to predict the running count of category matches. Probe R² scores steadily rise through early layers and peak at Layer 13 (R² = 0.821), then plateau across later layers. This suggests that the model builds up a linearly decodable internal representation of the count around mid-depth, with Layer 13 chosen as the best candidate for causal analysis.
 
 
 #### Activation Patching and Causal Evaluation
@@ -108,11 +108,11 @@ To assess whether the identified layer causally contributes to the model’s fin
 
 ![Figure5](interp_plots/average_impact_by_layer.png)
 
-*Mid-to-late layers are causally involved in producing the final count.*  We compute average patching success across layers by replacing hidden states with prefix-permuted alternatives and checking if the model flips its final answer accordingly. Success rises from early layers and saturates by Layer 18 (marked as best), indicating that running-count information becomes not just represented but causally used in the upper middle layers.
+**Mid-to-late layers are causally involved in producing the final count.**  We compute average patching success across layers by replacing hidden states with prefix-permuted alternatives and checking if the model flips its final answer accordingly. Success rises from early layers and saturates by Layer 18 (marked as best), indicating that running-count information becomes not just represented but causally used in the upper middle layers.
 
 ![Figure6](interp_plots/patching_heatmap_layer_13.png)
 
-*Patching Layer 13 reliably shifts model outputs.*  When we patch only the kth token's hidden state at Layer 13, the model flips to the counterfactual count in over 90% of cases across all list positions. This confirms that Layer 13 contains a localized representation of the running count that directly influences the final output.
+**Patching Layer 13 reliably shifts model outputs.**  When we patch only the kth token's hidden state at Layer 13, the model flips to the counterfactual count in over 90% of cases across all list positions. This confirms that Layer 13 contains a localized representation of the running count that directly influences the final output.
 
 
 
