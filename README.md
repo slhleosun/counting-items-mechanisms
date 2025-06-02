@@ -29,6 +29,7 @@ where:
 
 ### Benchmarking Models
 > 📁Relevant Files: behavioral_eval.ipynb ; behavioral_results/
+
 We evaluate a set of open‐weight LLMs on 5,000 prompts in a zero‐shot regime (no chain‐of‐thought steps, no appended reasoning instructions). Each model is asked exactly the prompt (ending in Answer: (), and we capture its next‐token generation(s) to extract the predicted integer. 
 Models Evaluated:
 > "llama3-8b-instr" : "meta-llama/Meta-Llama-3-8B-Instruct"
