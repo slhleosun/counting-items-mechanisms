@@ -18,12 +18,12 @@ The experiments consist of bahavioral (prompt construction + open model evaluati
 We create a synthetic dataset of prompts of the form: 
 > Count the number of words in the following list that match the given type,<br>
 > and put the numerical answer in parentheses.<br>
-> Type: <CATEGORY><br>
+> Type: CATEGORY <br>
 > List: [w₁, w₂, ..., w_N]<br>
 > Answer: (<br>
 
 where:
-- <CATEGORY> is drawn uniformly from a predefined set of semantic categories (“fruit,” “animal,” “vehicle,” “instrument,” “furniture”).
+- CATEGORY is drawn uniformly from a predefined set of semantic categories (“fruit,” “animal,” “vehicle,” “instrument,” “furniture”).
 - Each word list is of random length between 6 and 12 words, sampled (without replacement) from the union of all category pools. 
 - We ensure at least one matching word per list, so that the correct answer is never zero.
 - We compute the ground‐truth integer answer by counting how many list entries belong to the selected category.
