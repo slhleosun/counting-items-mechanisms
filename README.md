@@ -37,11 +37,19 @@ Models Evaluated:
 > "llama3-8b-instr" : "meta-llama/Meta-Llama-3-8B-Instruct"<br>
 > "llama3-8b"       : "meta-llama/Meta-Llama-3-8B"<br>
 > "llama3-70b-instr": "meta-llama/Meta-Llama-3-70B-Instruct"<br>
-> "llama3-70b"      : "meta-llama/Meta-Llama-3-70B"<br>
 > "qwen2.5-3b-instr": "Qwen/Qwen2.5-3B-Instruct"<br>
 > "qwen2.5-3b"      : "Qwen/Qwen2.5-3B"<br>
 
 #### Behavioral Results 
+
+![Figure1](behavioral_results/overall_behavioral_acc.png)
+*Model size and instruction tuning are important factors.* LLaMA3-70B-Instruct achieves the highest accuracy (~91%), with LLaMA3-8B-Instruct performing well (~73%) and the base 8B model trailing behind (~36%). Qwen2.5-3B variants perform near chance, highlighting the necessity of both scale and alignment for this counting task. 
+
+![Figure2](behavioral_results/word_behavioral_acc.png)
+*Models generally perform at similar levels across word types.* Models generally show consistent accuracy across all five semantic categories, suggesting robust generalization. 
+
+![Figure3](behavioral_results/length_behavioral_acc.png)
+*List length generally does not matter for large models like 70B, whereas 8B models' performance deteriorates as the list gets longer.* LLaMA3-70B-Instruct remains accurate even on 12-word lists. LLaMA3-8B-Instruct shows mild drop-off, and the base 8B model degrades more sharply. Qwen models are inaccurate regardless of list length.
 
 ## Mechanistic
 ### Methodology
