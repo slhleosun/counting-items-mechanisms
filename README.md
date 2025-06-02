@@ -4,10 +4,10 @@
 Author: [Lihao Sun](https://sites.google.com/uchicago.edu/lihao-sun) (University of Chicago)
 
 This repository implements a pipeline for investigating which layer in large language models (LLMs) maintain a running count of category‐matching words when processing prompts such as:
-> Count the number of words in the following list that match the given type, and put the numerical answer in parentheses.
-> Type: fruit
-> List: [dog, apple, cherry, bus, cat, grape, bowl]
-> Answer: (
+> Count the number of words in the following list that match the given type, and put the numerical answer in parentheses.<br>
+> Type: fruit<br>
+> List: [dog, apple, cherry, bus, cat, grape, bowl]<br>
+> Answer: (<br>
 
 The experiments consist of bahavioral (prompt construction + open model evaluations) and mechanistic (linear probe + patching) parts. 
 
@@ -15,11 +15,11 @@ The experiments consist of bahavioral (prompt construction + open model evaluati
 ### Prompt Construction
 > 📁Relevant Files: prompt_suite.ipynb
 We create a synthetic dataset of prompts of the form: 
-> Count the number of words in the following list that match the given type,
-> and put the numerical answer in parentheses.
-> Type: <CATEGORY>
-> List: [w₁, w₂, ..., w_N]
-> Answer: (
+> Count the number of words in the following list that match the given type,<br>
+> and put the numerical answer in parentheses.<br>
+> Type: <CATEGORY><br>
+> List: [w₁, w₂, ..., w_N]<br>
+> Answer: (<br>
 
 where:
 - <CATEGORY> is drawn uniformly from a predefined set of semantic categories (“fruit,” “animal,” “vehicle,” “instrument,” “furniture”).
@@ -32,12 +32,12 @@ where:
 
 We evaluate a set of open‐weight LLMs on 5,000 prompts in a zero‐shot regime (no chain‐of‐thought steps, no appended reasoning instructions). Each model is asked exactly the prompt (ending in Answer: (), and we capture its next‐token generation(s) to extract the predicted integer. 
 Models Evaluated:
-> "llama3-8b-instr" : "meta-llama/Meta-Llama-3-8B-Instruct"
-> "llama3-8b"       : "meta-llama/Meta-Llama-3-8B"
-> "llama3-70b-instr": "meta-llama/Meta-Llama-3-70B-Instruct"
-> "llama3-70b"      : "meta-llama/Meta-Llama-3-70B"
-> "qwen2.5-3b-instr": "Qwen/Qwen2.5-3B-Instruct"
-> "qwen2.5-3b"      : "Qwen/Qwen2.5-3B"
+> "llama3-8b-instr" : "meta-llama/Meta-Llama-3-8B-Instruct"<br>
+> "llama3-8b"       : "meta-llama/Meta-Llama-3-8B"<br>
+> "llama3-70b-instr": "meta-llama/Meta-Llama-3-70B-Instruct"<br>
+> "llama3-70b"      : "meta-llama/Meta-Llama-3-70B"<br>
+> "qwen2.5-3b-instr": "Qwen/Qwen2.5-3B-Instruct"<br>
+> "qwen2.5-3b"      : "Qwen/Qwen2.5-3B"<br>
 
 #### Behavioral Results 
 
