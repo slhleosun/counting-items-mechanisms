@@ -115,7 +115,7 @@ To assess whether the identified layer causally contributes to the model’s fin
 **Patching Layer 13 reliably shifts model outputs.**  When we patch only the kth token's hidden state at Layer 13, the model flips to the counterfactual count in over 90% of cases across all list positions. This confirms that Layer 13 contains a localized representation of the running count that directly influences the final output.
 
 #### Early-Stop + Projection Decoding
-> 📁 Relevant Files: early_stop.ipynb ; projection_models/ ; projection_plots/
+> 📁 Relevant Files: early_stop.ipynb ; projection_plots/
 
 We test whether layers ≥ 13 are needed after the running-count signal appears.
 Instead of finishing all 32 layers, we stop early and learn a lightweight projection that maps the hidden state at a chosen layer back into the final-layer space, then decode the answer from that projected representation.
