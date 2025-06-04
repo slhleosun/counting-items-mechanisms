@@ -114,5 +114,27 @@ To assess whether the identified layer causally contributes to the model’s fin
 
 **Patching Layer 13 reliably shifts model outputs.**  When we patch only the kth token's hidden state at Layer 13, the model flips to the counterfactual count in over 90% of cases across all list positions. This confirms that Layer 13 contains a localized representation of the running count that directly influences the final output.
 
+#### Early-Stop + Projection Decoding
+> 📁 Relevant Files: early_stop.ipynb ; projection_models/ ; projection_plots/
 
+We test whether layers ≥ 13 are needed after the running-count signal appears.
+Instead of finishing all 32 layers, we stop early and learn a lightweight projection that maps the hidden state at a chosen layer back into the final-layer space, then decode the answer from that projected representation.
 
+- Setup:
+
+  For stop-layers 10 → 20 we freeze the model and capture hidden states at (stop-layer, final-layer) for 2,000 training prompts.
+Projection Training	Train a small MLP + residual (ProjectionLayer) to transform the stop-layer vector into a vector that matches the final-layer distribution (MSE + cos-sim loss). 
+
+- Early-Stop Inference: 
+
+  At inference we run the model only up to the stop-layer, project that hidden state, apply the model’s final LayerNorm + lm_head, and greedily decode the integer (≤ 3 tokens).
+
+- Evaluation: 
+
+  Compare counting accuracy of each early-stop layer to the full 32-layer baseline on the complete 5,000 prompts dataset. A near-baseline score indicates that deeper layers add little beyond forwarding the count.
+
+##### Early-Stop Results
+
+![Figure7](projection_plots/accuracy_by_layer_with_projection.png)
+
+**Stopping at layer 16 and projecting its hidden state yields the same accuracy as running the full 32-layer model; layers ≥ 17 bring no further benefit.** With a learned projection, accuracy rises sharply from 12% with early stop at layer 10 to 65% at layer 14 and plateaus at the baseline level by layer 16. This confirms that the running-count representation is already complete and decision-ready by mid-depth; deeper layers mainly forward the scalar without improving the answer. 
